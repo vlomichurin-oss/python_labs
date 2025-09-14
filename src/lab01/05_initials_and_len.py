@@ -1,0 +1,5 @@
+fio = input("ФИО: ").strip()
+words = fio.split()
+ini = "".join(word[0].upper() for word in words)
+print(f"Иницыалы: {ini}")
+print(f"Длина: {len(fio)}")
