@@ -1,31 +1,28 @@
 def transpose(mat):
     if not mat:
         return []
-
     row_len = len(mat[0])
     for row in mat:
         if len(row) != row_len:
-            raise ValueError("рваная матрица")
+            raise ValueError()
     return [[mat[i][j] for i in range(len(mat))] for j in range(row_len)]
 
 def row_sums(mat):
     if not mat:
         return []
-
     row_len = len(mat[0])
     for row in mat:
         if len(row) != row_len:
-            raise ValueError("рваная матрица")
+            raise ValueError()
     return [sum(row) for row in mat]
 
 def col_sums(mat):
     if not mat:
         return []
-
     row_len = len(mat[0])
     for row in mat:
         if len(row) != row_len:
-            raise ValueError("рваная матрица")
+            raise ValueError()
     return [sum(mat[i][j] for i in range(len(mat))) for j in range(row_len)]
 
 print("transpose:")
