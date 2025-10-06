@@ -13,6 +13,8 @@
 <img width="982" height="618" alt="Снимок экрана 2025-09-14 в 17 22 08" src="https://github.com/user-attachments/assets/111eb0dc-8f7d-4c07-9255-ec8be6649889" />
 
 <h1>Лабораторная работа №2</h1>
-
+<h2>arrays</h2>
+<h2>matrix</h2>
+<h2>tuples</h2>
 
 
