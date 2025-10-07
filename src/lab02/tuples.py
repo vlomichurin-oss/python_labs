@@ -7,7 +7,7 @@ def format_record(rec: tuple[str, str, float]) -> str:
     parts = fio_clean.split()
     surname = parts[0].title()
 
-    initials = ''.join(f"{name[0].upper()}." for name in parts[1:])
+    initials = ''.join(f"{name[0].title()}." for name in parts[1:])
 
     gpa_str = f"{gpa:.2f}"
     mass = [surname, initials, gpa_str]
@@ -18,4 +18,4 @@ def format_record(rec: tuple[str, str, float]) -> str:
 print(format_record(("Иванов Иван Иванович", "BIVT-25", 4.6)))
 print(format_record(("Петров Пётр", "IKBO-12", 5.0)))
 print(format_record(("Петров Пётр Петрович", "IKBO-12", 5.0)))
-print(format_record(("  сидорова  анна   сергеевна ", "ABB-01", 3.999Í)))
+print(format_record(("  сидорова  анна   сергеевна ", "ABB-01", 3.999)))
