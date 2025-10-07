@@ -14,7 +14,7 @@
 
 <h1>Лабораторная работа №2</h1>
 <h2>arrays</h2>
-'''
+```
 def min_max(nums: list[float | int]) -> tuple[float | int, float | int]:
     if not nums:
         raise ValueError("список пуст")
@@ -36,7 +36,7 @@ print(min_max([3, -1, 5, 5, 0]))
 print(min_max([42]))
 print(min_max([-5, -2, -9]))
 print(min_max([1.5, 2, 2.0, -3.1]))
-'''
+```
 <img width="1423" height="777" alt="lab02ex1 1" src="https://github.com/user-attachments/assets/7df2bcf4-3c35-4050-829b-053a25d212fb" />
 <img width="656" height="311" alt="lab02ex1 2" src="https://github.com/user-attachments/assets/07ece2af-4876-40c2-b6e2-6462ab1fda1b" />
 <h2>matrix</h2>
