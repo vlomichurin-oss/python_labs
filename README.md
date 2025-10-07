@@ -14,11 +14,31 @@
 
 <h1>Лабораторная работа №2</h1>
 <h2>arrays</h2>
+'''
+def min_max(nums: list[float | int]) -> tuple[float | int, float | int]:
+    if not nums:
+        raise ValueError("список пуст")
+    return min(nums), max(nums)
+
+def unique_sorted(nums: list[float | int]) -> list[float | int]:
+    return sorted(set(nums))
+
+def flatten(mat: list[list | tuple]) -> list:
+    result = []
+    for row in mat:
+        if not isinstance(row, (list, tuple)):
+            raise TypeError()
+        result.extend(row)
+    return result
+
+print("min_max:")
+print(min_max([3, -1, 5, 5, 0]))
+print(min_max([42]))
+print(min_max([-5, -2, -9]))
+print(min_max([1.5, 2, 2.0, -3.1]))
+'''
 <img width="1423" height="777" alt="lab02ex1 1" src="https://github.com/user-attachments/assets/7df2bcf4-3c35-4050-829b-053a25d212fb" />
 <img width="656" height="311" alt="lab02ex1 2" src="https://github.com/user-attachments/assets/07ece2af-4876-40c2-b6e2-6462ab1fda1b" />
-```
-fgsyFguySGFK
-```
 <h2>matrix</h2>
 <img width="1432" height="630" alt="lab02ex2 1" src="https://github.com/user-attachments/assets/f0bd835c-2181-4213-be29-08a002bf2d9f" />
 <img width="529" height="290" alt="lab02ex2 2" src="https://github.com/user-attachments/assets/220576ab-f127-47b7-b6b8-3cb8062f1086" />
