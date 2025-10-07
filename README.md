@@ -16,6 +16,9 @@
 <h2>arrays</h2>
 <img width="1423" height="777" alt="lab02ex1 1" src="https://github.com/user-attachments/assets/7df2bcf4-3c35-4050-829b-053a25d212fb" />
 <img width="656" height="311" alt="lab02ex1 2" src="https://github.com/user-attachments/assets/07ece2af-4876-40c2-b6e2-6462ab1fda1b" />
+```
+fgsyFguySGFK
+```
 <h2>matrix</h2>
 <img width="1432" height="630" alt="lab02ex2 1" src="https://github.com/user-attachments/assets/f0bd835c-2181-4213-be29-08a002bf2d9f" />
 <img width="529" height="290" alt="lab02ex2 2" src="https://github.com/user-attachments/assets/220576ab-f127-47b7-b6b8-3cb8062f1086" />
