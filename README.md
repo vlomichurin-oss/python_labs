@@ -25,5 +25,11 @@
 <img width="1183" height="593" alt="lab02ex3 1" src="https://github.com/user-attachments/assets/e74d462f-abc0-4947-b7d2-a8bd10d94b19" />
 <img width="551" height="144" alt="lab02ex3 2" src="https://github.com/user-attachments/assets/19a1132d-117f-4ddc-81a0-f9f424ef50fe" />
 <div></div>
+<img width="719" height="449" alt="lab03ex1 2" src="https://github.com/user-attachments/assets/3b273569-a8fe-44c0-a7f7-33ceffc0e1be" />
 
+
+<h1>Лабораторная работа №3</h1>
+<img width="1155" height="491" alt="lab03ex1 1" src="https://github.com/user-attachments/assets/58505b9c-5dee-477a-b056-5457a9689d45" />
+<img width="719" height="449" alt="lab03ex1 2" src="https://github.com/user-attachments/assets/94b3c07b-21af-4180-bb70-8109fb3ccf3f" />
+<img width="1180" height="846" alt="lab03ex2 1" src="https://github.com/user-attachments/assets/ae83e8cc-c023-4fea-98a4-47b98219355d" />
 
