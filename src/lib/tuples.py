@@ -1,17 +1,22 @@
-def format_record(rec: tuple[str, str, float]) -> str:
-    fio, group, gpa = rec
+def format_record(s):
+    if len(s) != 3:
+        return 'ValueError'
+    else:
+        fio = s[0].split()
+        group = s[1]
+        gpa = s[2]
+        if type(s[2]) != float:
+            return 'TypeError'
+        else:
+            if len(fio) == 2:
+                return f'"{fio[0]} {fio[1][0]}., гр. {group}, GPA {gpa:.2f}"'
+            elif fio[0] != fio[0].title() and len(fio) == 2:
+                return f'"{fio[0].title()} {fio[1][0].title()}., гр. {group}, GPA {gpa:.2f}"'
+            elif fio[0] != fio[0].title() and len(fio) == 3:
+                return f'"{fio[0].title()} {fio[1][0].title()}.{fio[2][0].title()}., гр. {group}, GPA {gpa:.2f}"'
+            else:
+                return f'"{fio[0]} {fio[1][0]}.{fio[2][0]}., гр. {group}, GPA {gpa:.2f}"'
 
-    fio_clean = ' '.join(fio.split()).strip()
-    group_clean = group.strip()
-
-    parts = fio_clean.split()
-    surname = parts[0].title()
-
-    initials = ''.join(f"{name[0].upper()}." for name in parts[1:])
-
-    gpa_str = f"{gpa:.2f}"
-
-    return f"{surname} {initials}, гр. {group_clean}, GPA {gpa_str}"
 
 print(format_record(("Иванов Иван Иванович", "BIVT-25", 4.6)))
 print(format_record(("Петров Пётр", "IKBO-12", 5.0)))
