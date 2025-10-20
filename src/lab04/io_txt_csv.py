@@ -12,15 +12,7 @@ def write_csv(rows: Iterable[Sequence], path: str | Path,
               header: tuple[str, ...] | None = None) -> None:
     p = Path(path)
     ensure_parent_dir(p)
-
     rows_list = list(rows)
-
-    if rows_list:
-        first_len = len(rows_list[0])
-        for i, row in enumerate(rows_list):
-            if len(row) != first_len:
-                raise ValueError(f"Строка {i} имеет длину {len(row)}, ожидается {first_len}")
-
     with p.open("w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
         if header is not None:
