@@ -27,8 +27,8 @@
 <div></div>
 <img width="719" height="449" alt="lab03ex1 2" src="https://github.com/user-attachments/assets/3b273569-a8fe-44c0-a7f7-33ceffc0e1be" />
 
-# Лабораторная работа №3
-## Задание A
+<h1>Лабораторная работа №3<h1>
+<h2>Задание A<h2>
 <img width="1155" height="491" alt="lab03ex1 1" src="https://github.com/user-attachments/assets/58505b9c-5dee-477a-b056-5457a9689d45" />
 <img width="719" height="449" alt="lab03ex1 2" src="https://github.com/user-attachments/assets/94b3c07b-21af-4180-bb70-8109fb3ccf3f" />
 <h2>Задание B<h2>
