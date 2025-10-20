@@ -11,4 +11,7 @@
 <img width="1155" height="491" alt="lab03ex1 1" src="https://github.com/user-attachments/assets/58505b9c-5dee-477a-b056-5457a9689d45" />
 <img width="719" height="449" alt="lab03ex1 2" src="https://github.com/user-attachments/assets/94b3c07b-21af-4180-bb70-8109fb3ccf3f" />
 <h2>Задание B<h2>
+  С помощью import sys импортирует системный модуль, затем добавляет путь к пользовательским библиотекам и импортирует модуль для работы с текстом. String читает одну строку из стандартного ввода. text.tokenize(string) разбивает строку на отдельные слова, а
+text.count_freq(tokenized) подсчитывает частоту каждого слова. text.top_n(unique_words) возвращает 5 самых частых слов
+Цикл for token in k выводит каждое слово и его частоту.
 <img width="1180" height="846" alt="lab03ex2 1" src="https://github.com/user-attachments/assets/ae83e8cc-c023-4fea-98a4-47b98219355d" />
