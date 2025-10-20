@@ -31,3 +31,6 @@ def write_csv(rows: Iterable[Sequence], path: str | Path,
 
 def ensure_parent_dir(path: str | Path) -> None:
     Path(path).parent.mkdir(parents=True, exist_ok=True)
+
+print(read_text(r"/Users/edna/Desktop/python_labs/src/data/input.txt"))
+write_csv([("word","count"),("test",3)], r"/Users/edna/Desktop/python_labs/src/data/check.csv")
