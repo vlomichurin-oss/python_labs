@@ -1,6 +1,5 @@
 import sys
 from io_txt_csv import read_text, write_csv, ensure_parent_dir
-
 from pathlib import Path
 import os
 
@@ -12,10 +11,8 @@ from text import tokenize
 from text import top_n
 from text import count_freq
 
-
 def exist_path(path_f: str):
     return os.path.exists(path_f)
-
 
 def main(file: str, encoding: str = 'utf-8'):
     if not exist_path(file):
@@ -37,7 +34,6 @@ def main(file: str, encoding: str = 'utf-8'):
     print('Топ-5:')
     for word, count in top_sort:
         print(f'{word}: {count}')
-
 
 path = r'/Users/edna/Desktop/python_labs/src/data'
 main(path + r'/input.txt')
