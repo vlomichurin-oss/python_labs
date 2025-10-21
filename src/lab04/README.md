@@ -1,5 +1,11 @@
 # Лабораторная работа №4
 ## Задание A
+### Функция чтения текста:
+
+### Функция создания csv файла:
+
+### Функция создания родительских директорий:
+
 <img width="1467" height="884" alt="lab04exA" src="https://github.com/user-attachments/assets/e5554d16-0b3e-406b-b8b9-8975eedaa823" />
 <img width="1016" height="364" alt="lab04exA02" src="https://github.com/user-attachments/assets/acda0dd0-04ea-43d8-8bc2-5b295213dfce" />
 
