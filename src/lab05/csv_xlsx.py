@@ -48,3 +48,4 @@ def csv_to_xlsx(csv_path: str, xlsx_path: str) -> None:
         ws.column_dimensions[col_letter].width = column_width
     
     wb.save(xlsx_file)
+    print("test")
