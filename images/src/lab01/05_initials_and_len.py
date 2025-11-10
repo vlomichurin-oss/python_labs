@@ -1,5 +1,0 @@
-fio = input("ФИО: ").strip()
-initials = "".join(word[0].upper() for word in fio.split())
-length = len(fio.replace(" ", ""))
-print(f"Инициалы: {initials}.")
-print(f"Длина (символов): {length + 2}.")
