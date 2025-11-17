@@ -16,8 +16,7 @@ def count_freq(tokens: list[str]) -> dict[str, int]:
     tokens_set = set(tokens)
     return {x: tokens.count(x) for x in tokens_set}
 
-def top_n(freq: dict[str, int], n: int = 5) -> list[tuple[str, int]]:
-    sorted_items = sorted(freq.items(), key=lambda x: (-x[1], x[0]))
-    return sorted_items[:n]
+def top_n(freqs: dict[str, int], n: int) -> list[tuple[str, int]]:
+    return sorted(freqs.items(), key=lambda x: (-x[1], x[0]))[:n]
 
 
