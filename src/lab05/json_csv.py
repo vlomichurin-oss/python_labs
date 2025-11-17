@@ -5,9 +5,9 @@ from pathlib import Path
 def is_json_file(file_path: str) -> bool:
     return os.path.splitext(file_path)[1].lower() == '.json'
 
-
 def is_csv_file(file_path: str) -> bool:
     return os.path.splitext(file_path)[1].lower() == '.csv'
+
 
 def json_to_csv(json_path: str, csv_path: str) -> None:
     json_file = Path(json_path)
