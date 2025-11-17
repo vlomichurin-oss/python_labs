@@ -49,4 +49,4 @@ def csv_to_xlsx(csv_path: str, xlsx_path: str) -> None:
     
     wb.save(xlsx_file)
 
-csv_to_xlsx("/Users/edna/Desktop/python_labs/data/samples/cities.csv", "/Users/edna/Desktop/python_labs/data/out/cities.xlsx")
+csv_to_xlsx("/Users/edna/Desktop/python_labs/data/lab05/samples/cities.csv", "/Users/edna/Desktop/python_labs/data/lab05/out/cities.xlsx")

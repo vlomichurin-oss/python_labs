@@ -1,6 +1,5 @@
 import argparse
 import sys
-import os
 from pathlib import Path
 sys.path.append("/Users/edna/Desktop/python_labs/src/lib")
 sys.path.append("/Users/edna/Desktop/python_labs/src/lab04")
@@ -43,6 +42,7 @@ def main():
 if __name__ == "__main__":
     main()
 
-"-m src.lab06.cli_text cat --input data/lab06/testlab06"
-""
-"python3 -m src.lab6.cli_text --help"
+
+"  python3 -m src.lab06.cli_text cat --input data/lab06/testlab06 -n   "
+"  python3 -m src.lab06.cli_text stats --input 'Привет, мир! Как у тебя дела, мир?' --top 5   "
+"  python3 -m src.lab06.cli_text --help  "
