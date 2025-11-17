@@ -1,11 +1,10 @@
 import argparse
 import sys
-import os
 from pathlib import Path
 sys.path.append("/Users/edna/Desktop/python_labs/src/lab05")
 
-from ..lab05.json_csv import json_to_csv, csv_to_json
-from ..lab05.csv_xlsx import csv_to_xlsx
+from json_csv import json_to_csv, csv_to_json
+from csv_xlsx import csv_to_xlsx
 
 def main():
     parser = argparse.ArgumentParser(description="Конвертеры данных")
@@ -38,7 +37,7 @@ if __name__ == "__main__":
 
 
 
-"python3 -m src.lab06.cli_convert json2csv --in data/lab05/samples/people.json --out data/lab05/out/people_from_json.csv"
-"python3 -m src.lab06.cli_convert csv2json --in data/lab05/samples/people.csv --out data/lab05/out/people_from_csv.json"
-"python3 -m src.lab06.cli_convert csv2xlsx --in data/lab05/samples/people.csv --out data/lab05/out/people.xlsx"
-"python3 -m src.lab06.cli_convert --help"
+"   python3 -m src.lab06.cli_convert json2csv --in data/lab05/samples/people.json --out data/lab05/out/people_from_json.csv     "
+"   python3 -m src.lab06.cli_convert csv2json --in data/lab05/samples/people.csv --out data/lab05/out/people_from_csv.json      "
+"   python3 -m src.lab06.cli_convert csv2xlsx --in data/lab05/samples/people.csv --out data/lab05/out/people.xlsx       "
+"   python3 -m src.lab06.cli_convert --help     "
