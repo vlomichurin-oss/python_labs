@@ -72,6 +72,17 @@ def csv_to_json(csv_path: str, json_path: str) -> None:
 json_to_csv("/Users/edna/Desktop/python_labs/data/samples/people.json", "/Users/edna/Desktop/python_labs/data/out/people_from_json.csv")
 csv_to_json("/Users/edna/Desktop/python_labs/data/samples/people.csv", "/Users/edna/Desktop/python_labs/data/out/people_from_csv.json")
 ```
+### Входные данные:
+
+<img width="453" height="525" alt="lab05exA01" src="https://github.com/user-attachments/assets/53826b44-2dfb-4e1b-b6d0-f144c3d22098" />
+<img width="451" height="176" alt="lab05exA02" src="https://github.com/user-attachments/assets/f5bf51e1-bb92-4897-83b8-04b5fe458efd" />
+
+### Выходные данные:
+
+<img width="373" height="526" alt="lab05exA03" src="https://github.com/user-attachments/assets/b22aae92-e983-41ef-820a-5d0275999fe9" />
+<img width="366" height="160" alt="lab05exA04" src="https://github.com/user-attachments/assets/e1ef6858-3c99-4929-947f-ea1eb3ee8407" />
+
+
 ## Задание B — CSV → XLSX
 
 ```
@@ -128,3 +139,10 @@ def csv_to_xlsx(csv_path: str, xlsx_path: str) -> None:
 
 csv_to_xlsx("/Users/edna/Desktop/python_labs/data/samples/cities.csv", "/Users/edna/Desktop/python_labs/data/out/cities.xlsx")
 ```
+### Входные данные:
+
+<img width="412" height="174" alt="lab05exB01" src="https://github.com/user-attachments/assets/952e1125-2433-44fb-94a9-470ec647c64b" />
+
+### Выходные данные:
+
+<img width="279" height="144" alt="lab05exB02" src="https://github.com/user-attachments/assets/e2b12442-1732-41d3-94d5-fa723fc134e2" />
