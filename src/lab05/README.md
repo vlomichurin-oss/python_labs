@@ -6,6 +6,12 @@ import json
 import csv
 from pathlib import Path
 
+def is_json_file(file_path: str) -> bool:
+    return os.path.splitext(file_path)[1].lower() == '.json'
+
+def is_csv_file(file_path: str) -> bool:
+    return os.path.splitext(file_path)[1].lower() == '.csv'
+
 
 def json_to_csv(json_path: str, csv_path: str) -> None:
     json_file = Path(json_path)
@@ -69,8 +75,8 @@ def csv_to_json(csv_path: str, json_path: str) -> None:
     with json_file.open('w', encoding='utf-8') as f:
         json.dump(rows, f, ensure_ascii=False, indent=2)
 
-json_to_csv("/Users/edna/Desktop/python_labs/data/samples/people.json", "/Users/edna/Desktop/python_labs/data/out/people_from_json.csv")
-csv_to_json("/Users/edna/Desktop/python_labs/data/samples/people.csv", "/Users/edna/Desktop/python_labs/data/out/people_from_csv.json")
+json_to_csv("/Users/edna/Desktop/python_labs/data/lab05/samples/people.json", "/Users/edna/Desktop/python_labs/data/lab05/out/people_from_json.csv")
+csv_to_json("/Users/edna/Desktop/python_labs/data/lab05/samples/people.csv", "/Users/edna/Desktop/python_labs/data/lab05/out/people_from_csv.json")
 ```
 ### Входные данные:
 
