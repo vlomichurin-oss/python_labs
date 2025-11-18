@@ -1,11 +1,19 @@
-import sys, argparse
+import sys, argparse, os
 from pathlib import Path
 sys.path.append(r"/Users/edna/Desktop/python_labs/src/lab05")
 
 from csv_xlsx import csv_to_xlsx
 from json_csv import json_to_csv, csv_to_json
-from cli_text import check_file
 
+def check_file(file_path: str) -> bool:
+    if not os.path.exists(file_path):
+        print(f"Ошибка: файл '{file_path}' не существует", file=sys.stderr)
+        return False
+    if not os.path.isfile(file_path):
+        print(f"Ошибка: '{file_path}' не является файлом", file=sys.stderr)
+        return False
+
+    return True
 
 def cli_convert():
     parser = argparse.ArgumentParser(description="Конвертеры данных")
