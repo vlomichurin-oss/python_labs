@@ -1,14 +1,51 @@
-import argparse
-import sys
-from pathlib import Path
-sys.path.append("/Users/edna/Desktop/python_labs/src/lib")
-sys.path.append("/Users/edna/Desktop/python_labs/src/lab04")
-from text import normalize, tokenize, count_freq, top_n
-from io_txt_csv import read_text
+import sys, os, argparse
+sys.path.append(r"/Users/edna/Desktop/python_labs/src")
+from lib.text_stats import stats_text
 
+def cat_command(input_file: str, number_lines: bool = False):
+    if not check_file(input_file):
+        sys.exit(1)
+    
+    try:
+        with open(input_file, 'r', encoding='utf-8') as f:
+            for line_number, line in enumerate(f, start=1):
+                if number_lines:
+                    print(f"{line_number:6d}  {line}", end='')
+                else:
+                    print(line, end='')
+    except Exception as e:
+        print(f"Ошибка при чтении файла: {e}", file=sys.stderr)
+        sys.exit(1)
+
+def check_file(file_path: str) -> bool:
+    if not os.path.exists(file_path):
+        print(f"Ошибка: файл '{file_path}' не существует", file=sys.stderr)
+        return False
+    if not os.path.isfile(file_path):
+        print(f"Ошибка: '{file_path}' не является файлом", file=sys.stderr)
+        return False
+
+    return True
+
+def stats_command(input_file: str, top_n: int = 5):
+    if not check_file(input_file):
+        sys.exit(1)
+    
+    if top_n <= 0:
+        print("Ошибка: значение --top должно быть положительным числом", file=sys.stderr)
+        sys.exit(1)
+    
+    try:
+        with open(input_file, 'r', encoding='utf-8') as f:
+            text = f.read()
+            stats_text(text, top_n)
+
+    except Exception as e:
+        print(f"Ошибка при анализе файла: {e}", file=sys.stderr)
+        sys.exit(1)
 
 def main():
-    parser = argparse.ArgumentParser(description="CLI-утилиты лабораторной №6")
+    parser = argparse.ArgumentParser(description="Лабораторная №6")
     subparsers = parser.add_subparsers(dest="command")
 
     cat_parser = subparsers.add_parser("cat", help="Вывести содержимое файла")
@@ -22,27 +59,18 @@ def main():
     args = parser.parse_args()
 
     if args.command == "cat":
-        p = Path(args.input)
-        if not p.exists():
-            raise FileNotFoundError("файл не найден")
-        array_text = tokenize(normalize(read_text(p)))
-        if args.n:
-            for i, e in enumerate(array_text, 1):
-                print(f"{i}. {e}")
-        else:
-            for e in array_text:
-                print(e)
-
+        cat_command(args.input, args.n)
     elif args.command == "stats":
-        text = args.input
-        for e in top_n(count_freq(tokenize(normalize(text))), args.top):
-            print(e[0], e[1])
+        stats_command(args.input, args.top)
+    else:
 
+        parser.print_help()
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
 
 
-"  python3 -m src.lab06.cli_text cat --input data/lab06/testlab06 -n   "
-"  python3 -m src.lab06.cli_text stats --input 'Привет, мир! Как у тебя дела, мир?' --top 5   "
+"  python3 -m src.lab06.cli_text cat --input data/lab06/testlab06.01 -n   "
+"  python3 -m src.lab06.cli_text stats --input data/lab06/testlab06.02 --top 5   "
 "  python3 -m src.lab06.cli_text --help  "
