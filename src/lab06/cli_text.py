@@ -5,7 +5,7 @@ from lib.text_stats import stats_text
 def cat_command(input_file: str, number_lines: bool = False):
     if not check_file(input_file):
         sys.exit(1)
-    
+
     try:
         with open(input_file, 'r', encoding='utf-8') as f:
             for line_number, line in enumerate(f, start=1):
