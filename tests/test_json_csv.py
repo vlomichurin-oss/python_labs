@@ -1,7 +1,9 @@
 import pytest
 import json
 import csv
-from src.lab05.json_csv import json_to_csv, csv_to_json
+import sys
+sys.path.append(r"/Users/edna/Desktop/python_labs/src")
+from lab05.json_csv import json_to_csv, csv_to_json
 
 
 # Базовые тесты для успешных сценариев

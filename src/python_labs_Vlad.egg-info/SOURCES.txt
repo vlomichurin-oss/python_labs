@@ -20,10 +20,10 @@ src/lab06/cli_text.py
 src/lib/__init__.py
 src/lib/text.py
 src/lib/text_stats.py
-src/python_labs_Egor.egg-info/PKG-INFO
-src/python_labs_Egor.egg-info/SOURCES.txt
-src/python_labs_Egor.egg-info/dependency_links.txt
-src/python_labs_Egor.egg-info/requires.txt
-src/python_labs_Egor.egg-info/top_level.txt
+src/python_labs_Vlad.egg-info/PKG-INFO
+src/python_labs_Vlad.egg-info/SOURCES.txt
+src/python_labs_Vlad.egg-info/dependency_links.txt
+src/python_labs_Vlad.egg-info/requires.txt
+src/python_labs_Vlad.egg-info/top_level.txt
 tests/test_json_csv.py
 tests/test_text.py

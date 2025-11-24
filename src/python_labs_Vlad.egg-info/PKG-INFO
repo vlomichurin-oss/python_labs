@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
-Name: python_labs_Egor
-Version: 16.11.2025
+Name: python_labs_Vlad
+Version: 24.11.2025
 Provides-Extra: dev
 Requires-Dist: pytest>=8.0.0; extra == "dev"
 Requires-Dist: pytest-cov>=5.0.0; extra == "dev"
