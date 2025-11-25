@@ -105,7 +105,7 @@ def test_json_to_csv_errors(tmp_path, test_name, file_content, expected_error):
         ("file_not_found", None, FileNotFoundError),
         ("empty_file", "", ValueError),
         ("empty_header", "\nAlice,25", ValueError),
-        ("empty_columns", "name,,age\nAlice,25,30", ValueError)
+        ("empty_columns", "name,,age\nAlice,25,30", ValueError),
         # ("invalid_encoding", b"\xff\xfe\x00\x00", ValueError),
     ],
 )
