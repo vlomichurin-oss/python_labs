@@ -1,8 +1,8 @@
 import pytest
 import sys
 
-sys.path.append(r"/Users/edna/Desktop/python_labs/src")
-from lib.text import normalize, tokenize, count_freq, top_n
+# sys.path.append(r"/Users/edna/Desktop/python_labs/src")
+from src.lib.text import normalize, tokenize, count_freq, top_n
 
 
 @pytest.mark.parametrize(
@@ -74,3 +74,5 @@ def test_full_pipeline():
     assert tokens == ["привет", "мир", "привет", "всем", "мир", "прекрасен"]
     assert freq == {"привет": 2, "мир": 2, "всем": 1, "прекрасен": 1}
     assert top_words == [("мир", 2), ("привет", 2)]
+
+" pytest tests/test_text.py "
