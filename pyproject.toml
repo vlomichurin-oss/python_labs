@@ -64,7 +64,8 @@ omit = [
     "*/lib/json_csv.py",
     "*/lab05/__init__.py", 
     "*/lib/text_stats*.py",
-    "*/lab05/csv_xlsx.py"
+    "*/lab05/csv_xlsx.py",
+    "*/lib/__init__.py*"
 ]
 
 '''
