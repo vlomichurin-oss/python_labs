@@ -6,4 +6,4 @@ summ = num1 + num2
 avg = (num1 + num2) / 2
 rounded_sum = round(summ, 2)
 rounded_avg = round(avg, 2)
-print(rounded_sum, rounded_avg)
+print(rounded_sum,rounded_avg)

@@ -1,24 +1,21 @@
 import sys, os, argparse
-
 sys.path.append(r"/Users/edna/Desktop/python_labs/src")
 from lib.text_stats import stats_text
-
 
 def cat_command(input_file: str, number_lines: bool = False):
     if not check_file(input_file):
         sys.exit(1)
 
     try:
-        with open(input_file, "r", encoding="utf-8") as f:
+        with open(input_file, 'r', encoding='utf-8') as f:
             for line_number, line in enumerate(f, start=1):
                 if number_lines:
-                    print(f"{line_number:6d}  {line}", end="")
+                    print(f"{line_number:6d}  {line}", end='')
                 else:
-                    print(line, end="")
+                    print(line, end='')
     except Exception as e:
         print(f"Ошибка при чтении файла: {e}", file=sys.stderr)
         sys.exit(1)
-
 
 def check_file(file_path: str) -> bool:
     if not os.path.exists(file_path):
@@ -30,26 +27,22 @@ def check_file(file_path: str) -> bool:
 
     return True
 
-
 def stats_command(input_file: str, top_n: int = 5):
     if not check_file(input_file):
         sys.exit(1)
-
+    
     if top_n <= 0:
-        print(
-            "Ошибка: значение --top должно быть положительным числом", file=sys.stderr
-        )
+        print("Ошибка: значение --top должно быть положительным числом", file=sys.stderr)
         sys.exit(1)
-
+    
     try:
-        with open(input_file, "r", encoding="utf-8") as f:
+        with open(input_file, 'r', encoding='utf-8') as f:
             text = f.read()
             stats_text(text, top_n)
 
     except Exception as e:
         print(f"Ошибка при анализе файла: {e}", file=sys.stderr)
         sys.exit(1)
-
 
 def main():
     parser = argparse.ArgumentParser(description="Лабораторная №6")
@@ -73,7 +66,6 @@ def main():
 
         parser.print_help()
         sys.exit(1)
-
 
 if __name__ == "__main__":
     main()

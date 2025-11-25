@@ -1,9 +1,7 @@
 import sys
-
 sys.path.append("/Users/edna/Desktop/python_labs/src/lib")
 
 from text import normalize, tokenize, count_freq, top_n
-
 
 def table(arr: list[tuple[str, int]], isTable: bool = True) -> str:
     if not arr:
@@ -19,8 +17,6 @@ def table(arr: list[tuple[str, int]], isTable: bool = True) -> str:
         return s
     else:
         return "\n".join(f"{a[0]}: {a[1]}" for a in arr)
-
-
 def stats_text(text: str, n: int = 5):
     text = text.strip()
     tokens = normalize(text)

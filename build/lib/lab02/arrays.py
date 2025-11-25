@@ -3,10 +3,8 @@ def min_max(nums: list[float | int]) -> tuple[float | int, float | int]:
         raise ValueError("список пуст")
     return min(nums), max(nums)
 
-
 def unique_sorted(nums: list[float | int]) -> list[float | int]:
     return sorted(set(nums))
-
 
 def flatten(mat: list[list | tuple]) -> list:
     result = []
@@ -15,7 +13,6 @@ def flatten(mat: list[list | tuple]) -> list:
             raise TypeError()
         result.extend(row)
     return result
-
 
 print("min_max:")
 print(min_max([3, -1, 5, 5, 0]))

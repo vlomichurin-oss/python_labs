@@ -29,7 +29,6 @@ addopts = "-v --cov=src --cov-report=term-missing"
 [tool.coverage.run]
 source = ["src"]
 omit = [
-    "*/test_*",
     "*/__pycache__/*",
     "*/csv_xlsx.py",
     "*/lib/csv_xlsx.py",
@@ -42,5 +41,8 @@ omit = [
     "*/tuples.py",
     "*/lib/__init__.py*",
     "*/lib/json_csv.py*",
-    "*/lab05/__init__.py*"
+    "*/lab05/__init__.py*",
+    "*/lab06/__init__.py*",
+    "*/lab06/cli_convert.py*",
+    "*/lab06/cli_text.py*"
 ]

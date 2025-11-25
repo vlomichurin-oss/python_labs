@@ -7,7 +7,6 @@ def transpose(mat):
             raise ValueError()
     return [[mat[i][j] for i in range(len(mat))] for j in range(row_len)]
 
-
 def row_sums(mat):
     if not mat:
         return []
@@ -17,7 +16,6 @@ def row_sums(mat):
             raise ValueError()
     return [sum(row) for row in mat]
 
-
 def col_sums(mat):
     if not mat:
         return []
@@ -26,7 +24,6 @@ def col_sums(mat):
         if len(row) != row_len:
             raise ValueError()
     return [sum(mat[i][j] for i in range(len(mat))) for j in range(row_len)]
-
 
 print("transpose:")
 print(transpose([[1, 2, 3]]))
