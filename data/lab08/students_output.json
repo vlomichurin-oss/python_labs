@@ -1,0 +1,20 @@
+[
+  {
+    "fio": "Max Verstappen",
+    "birthdate": "1997/09/30",
+    "group": "БИВТ-25-33",
+    "gpa": 5.0
+  },
+  {
+    "fio": "Fernando Alonso",
+    "birthdate": "1981/07/29",
+    "group": "БИВТ-25-14",
+    "gpa": 4.4
+  },
+  {
+    "fio": "Nikita Mazepin",
+    "birthdate": "1999/03/02",
+    "group": "БИВТ-25-1",
+    "gpa": 1.4
+  }
+]
