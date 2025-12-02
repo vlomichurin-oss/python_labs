@@ -9,4 +9,4 @@ def students_to_json(students, path):
 def students_from_json(path):
     with open(path, "r", encoding="utf-8") as fr:
         data =json.load(fr)
-    return [Student.from_dict(d) for d in data] 
+    return [Student.from_dict(d) for d in data]
