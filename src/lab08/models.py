@@ -8,13 +8,6 @@ class Student:
     group: str
     gpa: float
 
-    def __init__(self, fio, birthdate, group, gpa):
-        self.fio = fio
-        self.birthdate = birthdate
-        self.group = group
-        self.gpa = gpa
-        self.__post_init__()
-
     def __post_init__(self): 
         if self.gpa > 5 or self.gpa < 0:
             raise ValueError("GPA должен быть в диапазоне от 0 до 5")
