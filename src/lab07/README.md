@@ -1,169 +1,326 @@
-# Лабораторная работа №6
-## `cli_text.py`
+# Лабораторная работа №7
+## A. Тесты для text.py
+### Созданы комплексные тесты для всех функций модуля:
+- ### `normalize()` - базовые и граничные случаи
+- ### `tokenize()` - различные сценарии токенизации
+- ### `count_freq()` - подсчет частот слов
+- ### `top_n()` - извлечение топ-N элементов с обработкой одинаковых частот
+```import pytest
+import sys
+
+# sys.path.append(r"/Users/edna/Desktop/python_labs/src")
+from src.lib.text import normalize, tokenize, count_freq, top_n
+
+
+@pytest.mark.parametrize(
+    "source, expected",
+    [
+        ("ПрИвЕт\nМИр\t", "привет мир"),
+        ("ёжик, Ёлка", "ежик, елка"),
+        ("Hello\r\nWorld", "hello world"),
+        ("  двойные   пробелы  ", "двойные пробелы"),
+        ("", ""),
+        ("   ", ""),
+    ],
+)
+def test_normalize(source, expected):
+    assert normalize(source) == expected
+
+
+@pytest.mark.parametrize(
+    "text, expected",
+    [
+        ("привет мир", ["привет", "мир"]),
+        ("hello world test", ["hello", "world", "test"]),
+        ("", []),
+        ("   ", []),
+        ("знаки, препинания! тест.", ["знаки", "препинания", "тест"]),
+    ],
+)
+def test_tokenize(text, expected):
+    assert tokenize(text) == expected
+
+
+def test_count_freq_basic():
+    tokens = ["apple", "banana", "apple", "cherry", "banana", "apple"]
+    result = count_freq(tokens)
+    expected = {"apple": 3, "banana": 2, "cherry": 1}
+    assert result == expected
+
+
+def test_count_freq_empty():
+    assert count_freq([]) == {}
+
+
+def test_top_n_basic():
+    freq = {"apple": 5, "banana": 3, "cherry": 7, "date": 1}
+    result = top_n(freq, 2)
+    expected = [("cherry", 7), ("apple", 5)]
+    assert result == expected
+
+
+def test_top_n_tie_breaker():
+    freq = {"banana": 3, "apple": 3, "cherry": 3}
+    result = top_n(freq, 3)
+    expected = [("apple", 3), ("banana", 3), ("cherry", 3)]
+    assert result == expected
+
+
+def test_top_n_empty():
+    assert top_n({}, 5) == []
+
+
+def test_full_pipeline():
+    text = "Привет мир! Привет всем. Мир прекрасен."
+    normalized = normalize(text)
+    tokens = tokenize(normalized)
+    freq = count_freq(tokens)
+    top_words = top_n(freq, 2)
+
+    assert normalized == "привет мир! привет всем. мир прекрасен."
+    assert tokens == ["привет", "мир", "привет", "всем", "мир", "прекрасен"]
+    assert freq == {"привет": 2, "мир": 2, "всем": 1, "прекрасен": 1}
+    assert top_words == [("мир", 2), ("привет", 2)]
+
+
+" pytest tests/test_text.py "
 ```
-import sys, os, argparse
-sys.path.append(r"/Users/edna/Desktop/python_labs/src")
-from lib.text_stats import stats_text
+## B. Тесты для json_csv.py
+### Реализованы тесты для функций конвертации:
+- ### Позитивные сценарии (корректная конвертация)
+- ### Негативные сценарии (ошибки файлов, некорректные данные)
+- ### Тесты полного цикла конвертации
+```import pytest
+import json
+import csv
+import sys
 
-def cat_command(input_file: str, number_lines: bool = False):
-    if not check_file(input_file):
-        sys.exit(1)
+# sys.path.append(r"/Users/edna/Desktop/python_labs/src")
+from src.lab05.json_csv import json_to_csv, csv_to_json
 
-    try:
-        with open(input_file, 'r', encoding='utf-8') as f:
-            for line_number, line in enumerate(f, start=1):
-                if number_lines:
-                    print(f"{line_number:6d}  {line}", end='')
-                else:
-                    print(line, end='')
-    except Exception as e:
-        print(f"Ошибка при чтении файла: {e}", file=sys.stderr)
-        sys.exit(1)
 
-def check_file(file_path: str) -> bool:
-    if not os.path.exists(file_path):
-        print(f"Ошибка: файл '{file_path}' не существует", file=sys.stderr)
-        return False
-    if not os.path.isfile(file_path):
-        print(f"Ошибка: '{file_path}' не является файлом", file=sys.stderr)
-        return False
+# Базовые тесты для успешных сценариев
+@pytest.mark.parametrize(
+    "test_name,data,expected_count",
+    [
+        ("basic", [{"name": "Alice", "age": 25}, {"name": "Bob", "age": 30}], 2),
+        (
+            "complex_data",
+            [{"name": "Alice", "age": 25, "active": True, "score": 95.5}],
+            1,
+        ),
+        (
+            "different_order",
+            [{"name": "Alice", "age": 25}, {"age": 30, "name": "Bob"}],
+            2,
+        ),
+        ("empty_values", [{"name": "Alice", "age": 25, "comment": ""}], 1),
+        ("unicode", [{"name": "Алиса", "message": "Привет! 🌍"}], 1),
+    ],
+)
+def test_json_to_csv_success(tmp_path, test_name, data, expected_count):
+    """Параметризованный тест успешных преобразований JSON в CSV"""
+    src = tmp_path / f"{test_name}.json"
+    dst = tmp_path / f"{test_name}.csv"
 
-    return True
+    src.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+    json_to_csv(str(src), str(dst))
 
-def stats_command(input_file: str, top_n: int = 5):
-    if not check_file(input_file):
-        sys.exit(1)
-    
-    if top_n <= 0:
-        print("Ошибка: значение --top должно быть положительным числом", file=sys.stderr)
-        sys.exit(1)
-    
-    try:
-        with open(input_file, 'r', encoding='utf-8') as f:
-            text = f.read()
-            stats_text(text, top_n)
+    assert dst.exists()
+    with dst.open(encoding="utf-8") as f:
+        rows = list(csv.DictReader(f))
 
-    except Exception as e:
-        print(f"Ошибка при анализе файла: {e}", file=sys.stderr)
-        sys.exit(1)
+    assert len(rows) == expected_count
+    assert rows[0]["name"] == data[0]["name"]
 
-def main():
-    parser = argparse.ArgumentParser(description="Лабораторная №6")
-    subparsers = parser.add_subparsers(dest="command")
 
-    cat_parser = subparsers.add_parser("cat", help="Вывести содержимое файла")
-    cat_parser.add_argument("--input", required=True)
-    cat_parser.add_argument("-n", action="store_true", help="Нумеровать строки")
+@pytest.mark.parametrize(
+    "test_name,csv_content,expected_count",
+    [
+        ("basic", "name,age\nAlice,25\nBob,30", 2),
+        ("special_chars", 'name,description\n"Alice","Test, comma"', 1),
+        ("semicolon_delim", "name;age\nAlice;25\nBob;30", 2),
+    ],
+)
+def test_csv_to_json_success(tmp_path, test_name, csv_content, expected_count):
+    """Параметризованный тест успешных преобразований CSV в JSON"""
+    src = tmp_path / f"{test_name}.csv"
+    dst = tmp_path / f"{test_name}.json"
 
-    stats_parser = subparsers.add_parser("stats", help="Частоты слов")
-    stats_parser.add_argument("--input", required=True)
-    stats_parser.add_argument("--top", type=int, default=5)
+    src.write_text(csv_content, encoding="utf-8")
+    csv_to_json(str(src), str(dst))
 
-    args = parser.parse_args()
+    assert dst.exists()
+    with dst.open(encoding="utf-8") as f:
+        data = json.load(f)
 
-    if args.command == "cat":
-        cat_command(args.input, args.n)
-    elif args.command == "stats":
-        stats_command(args.input, args.top)
+    assert len(data) == expected_count
+
+
+# Тесты для ошибок JSON
+@pytest.mark.parametrize(
+    "test_name,file_content,expected_error",
+    [
+        ("file_not_found", None, FileNotFoundError)
+        # ("invalid_json", "{ invalid json }", ValueError),
+        # ("empty_file", "", ValueError),
+        # ("not_list", '{"name": "test"}', ValueError),
+        # ("empty_list", "[]", ValueError),
+        # ("mixed_list", '[{"name": "test"}, "not_dict"]', ValueError),
+        # ("invalid_encoding", b"\xff\xfe\x00\x00", ValueError),
+    ],
+)
+def test_json_to_csv_errors(tmp_path, test_name, file_content, expected_error):
+    """Параметризованный тест ошибок JSON в CSV"""
+    src = tmp_path / f"{test_name}.json"
+    dst = tmp_path / "output.csv"
+
+    if file_content is None:
+        # Тест для несуществующего файла
+        with pytest.raises(expected_error):
+            json_to_csv("nonexistent.json", str(dst))
     else:
-
-        parser.print_help()
-        sys.exit(1)
-
-if __name__ == "__main__":
-    main()
-```
-### Вывод строк с номерами:
-
-<img width="902" height="825" alt="lab06exCLI_TEXT01" src="https://github.com/user-attachments/assets/8012c44b-b233-4c75-bf13-ec71442b4b2a" />
-
-### Вывод топ слов :
-
-<img width="920" height="248" alt="laab06exCLI_TEXT02" src="https://github.com/user-attachments/assets/e6145e60-1dfd-4f56-a637-cfd999cff59a" />
-
-## Help:
-
-<img width="708" height="189" alt="lab06exCLI_TEXT03" src="https://github.com/user-attachments/assets/83a7f9a6-b96d-418e-848b-7ebc9f00bdc9" />
-
-## `cli_convert.py`
-```
-import sys, argparse, os
-from pathlib import Path
-sys.path.append(r"/Users/edna/Desktop/python_labs/src/lab05")
-
-from csv_xlsx import csv_to_xlsx
-from json_csv import json_to_csv, csv_to_json
-
-def check_file(file_path: str) -> bool:
-    if not os.path.exists(file_path):
-        print(f"Ошибка: файл '{file_path}' не существует", file=sys.stderr)
-        return False
-    if not os.path.isfile(file_path):
-        print(f"Ошибка: '{file_path}' не является файлом", file=sys.stderr)
-        return False
-
-    return True
-
-def cli_convert():
-    parser = argparse.ArgumentParser(description="Конвертеры данных")
-    sub = parser.add_subparsers(dest="cmd", required=True)
-    
-    p1 = sub.add_parser("json2csv")
-    p1.add_argument("--in", dest="input", required=True, help="Входной JSON файл")
-    p1.add_argument("--out", dest="output", required=True, help="Выходной CSV файл")
-
-    p2 = sub.add_parser("csv2json")
-    p2.add_argument("--in", dest="input", required=True, help="Входной CSV файл")
-    p2.add_argument("--out", dest="output", required=True, help="Выходной JSON файл")
-
-    p3 = sub.add_parser("csv2xlsx")
-    p3.add_argument("--in", dest="input", required=True, help="Входной CSV файл")
-    p3.add_argument("--out", dest="output", required=True, help="Выходной XLSX файл")
-    
-    args = parser.parse_args()
-
-    try:
-        if args.cmd == "json2csv":
-            if not check_file(args.input):
-                print(f"Ошибка: Файл {args.input} не существует или недоступен")
-                sys.exit(1)
-                
-            json_to_csv(args.input, args.output)
-            print(f"Успешно: JSON -> CSV")
-            
-        elif args.cmd == "csv2json":
-            if not check_file(args.input):
-                print(f"Ошибка: Файл {args.input} не существует или недоступен")
-                sys.exit(1)
-                
-            csv_to_json(args.input, args.output)
-            print(f"Успешно: CSV -> JSON")
-            
-        elif args.cmd == "csv2xlsx":
-            if not check_file(args.input):
-                print(f"Ошибка: Файл {args.input} не существует или недоступен")
-                sys.exit(1)
-                
-            csv_to_xlsx(args.input, args.output)
-            print(f"Успешно: CSV -> XLSX")
-            
+        # Тест для файла с ошибкой в содержимом
+        if isinstance(file_content, bytes):
+            src.write_bytes(file_content)
         else:
-            print("Ошибка: Неизвестная команда")
-            sys.exit(1)
-            
-        return 0
-        
-    except Exception as e:
-        print(f"Ошибка при конвертации: {str(e)}")
-        sys.exit(1)
+            src.write_text(file_content, encoding="utf-8")
 
-if __name__ == "__main__":
-    sys.exit(cli_convert())
+        with pytest.raises(ValueError, expected_error):
+            json_to_csv(str(src), str(dst))
+
+
+# Тесты для ошибок CSV
+@pytest.mark.parametrize(
+    "test_name,file_content,expected_error",
+    [
+        ("file_not_found", None, FileNotFoundError),
+        ("empty_file", "", ValueError),
+        ("empty_header", "\nAlice,25", ValueError),
+        ("empty_columns", "name,,age\nAlice,25,30", ValueError),
+        # ("invalid_encoding", b"\xff\xfe\x00\x00", ValueError),
+    ],
+)
+def test_csv_to_json_errors(tmp_path, test_name, file_content, expected_error):
+    """Параметризованный тест ошибок CSV в JSON"""
+    src = tmp_path / f"{test_name}.csv"
+    dst = tmp_path / "output.json"
+
+    if file_content is None:
+        # Тест для несуществующего файла
+        with pytest.raises(expected_error):
+            csv_to_json("nonexistent.csv", str(dst))
+    else:
+        # Тест для файла с ошибкой в содержимом
+        if isinstance(file_content, bytes):
+            src.write_bytes(file_content)
+        else:
+            src.write_text(file_content, encoding="utf-8")
+
+        with pytest.raises(expected_error):
+            csv_to_json(str(src), str(dst))
+
+
+# Специальные тесты
+def test_json_csv_roundtrip(tmp_path):
+    """Тест полного цикла преобразования"""
+    original_json = tmp_path / "original.json"
+    intermediate_csv = tmp_path / "intermediate.csv"
+    final_json = tmp_path / "final.json"
+
+    original_data = [{"name": "Alice", "age": 25}, {"name": "Bob", "age": 30}]
+    original_json.write_text(json.dumps(original_data), encoding="utf-8")
+
+    json_to_csv(str(original_json), str(intermediate_csv))
+    csv_to_json(str(intermediate_csv), str(final_json))
+
+    with final_json.open(encoding="utf-8") as f:
+        final_data = json.load(f)
+
+    assert len(final_data) == 2
+    assert final_data[0]["name"] == "Alice"
+
+
+def test_unexpected_errors(monkeypatch, tmp_path):
+    """Тест неожиданных ошибок"""
+    # Тест для JSON
+    src_json = tmp_path / "test.json"
+    dst_json = tmp_path / "test.csv"
+    src_json.write_text('[{"name": "test"}]', encoding="utf-8")
+
+    def mock_getsize(path):
+        raise RuntimeError("Unexpected error")
+
+    monkeypatch.setattr("os.path.getsize", mock_getsize)
+
+    with pytest.raises(ValueError, match="Неожиданная ошибка"):
+        json_to_csv(str(src_json), str(dst_json))
+
+    # Тест для CSV
+    src_csv = tmp_path / "test.csv"
+    dst_csv = tmp_path / "test.json"
+    src_csv.write_text("name,age\nAlice,25", encoding="utf-8")
+    original_open = open
+
+    def mock_open(*args, **kwargs):
+        if args[0].endswith(".csv") and "r" in args[1]:
+            raise RuntimeError("Unexpected read error")
+        return original_open(*args, **kwargs)
+
+    monkeypatch.setattr("builtins.open", mock_open)
+
+    with pytest.raises(ValueError, match="Неожиданная ошибка"):
+        csv_to_json(str(src_csv), str(dst_csv))
+
+
+def test_csv_empty_data_with_header(tmp_path):
+    """Тест для CSV только с заголовком"""
+    src = tmp_path / "only_header.csv"
+    dst = tmp_path / "test.json"
+
+    src.write_text("name,age", encoding="utf-8")
+
+    csv_to_json(str(src), str(dst))
+
+    assert dst.exists()
+    with dst.open(encoding="utf-8") as f:
+        data = json.load(f)
+
+    assert len(data) == 0  # Пустой список, так как нет данных
+
+
+def test_json_to_csv_wrong_extension(tmp_path):
+    """Тест: JSON файл с неправильным расширением"""
+    src = tmp_path / "test.txt"  # Не .json файл
+    dst = tmp_path / "test.csv"
+
+    src.write_text('[{"name": "test"}]', encoding="utf-8")
+
+    with pytest.raises(ValueError, match="не является JSON файлом"):
+        json_to_csv(str(src), str(dst))
+
+
+def test_csv_to_json_wrong_extension(tmp_path):
+    """Тест: CSV файл с неправильным расширением"""
+    src = tmp_path / "test.txt"  # Не .csv файл
+    dst = tmp_path / "test.json"
+
+    src.write_text("name,age\nAlice,25", encoding="utf-8")
+
+    with pytest.raises(ValueError, match="не является CSV файлом"):
+        csv_to_json(str(src), str(dst))
+
+
+" pytest tests/test_json_csv.py "
+" pytest --cov=src --cov-report=term-missing "
 ```
-### Вывод JSON -> CSV, CSV -> JSON, CSV -> XLSX:
+## C. Стиль кода
+### Проект отформатирован с помощью black согласно конфигурации.
 
-<img width="1001" height="152" alt="lab06exCLI_CONVERT" src="https://github.com/user-attachments/assets/9359834d-0f71-47d1-a980-c95128c27230" />
+<img width="438" height="69" alt="lab07exC01" src="https://github.com/user-attachments/assets/de1e2963-ce05-4aa1-b41c-806bd92b57ab" />
 
-### Help:
+## ★ Дополнительное задание
+### Настроено измерение покрытия кода с помощью pytest-cov
 
-<img width="708" height="189" alt="lab06exCLI_TEXT03" src="https://github.com/user-attachments/assets/68188263-8d0f-4070-bb98-1d86317f70a9" />
+<img width="1000" height="203" alt="lab07exExtra" src="https://github.com/user-attachments/assets/8469a800-6126-46d0-81e4-0e4ca86da37e" />
+
