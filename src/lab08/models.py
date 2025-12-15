@@ -1,24 +1,38 @@
-from datetime import datetime, date 
-from dataclasses import dataclass 
+from datetime import datetime, date #работает с датой и временем
+from dataclasses import dataclass # библиотека для сереализации (есть некий объект и хотим превратить в текст)
 
-@dataclass 
+@dataclass # декоратор - это то что будет выполнено до исполнения(заранее)
 class Student:
+    """Класс Student представляет студента учебного заведения"""
     fio: str
     birthdate: str
     group: str
     gpa: float
 
-    def __post_init__(self): 
-        if self.gpa > 5 or self.gpa < 0:
-            raise ValueError("GPA должен быть в диапазоне от 0 до 5")
-        try:
-            self.birthdate = datetime.strptime(self.birthdate, "%Y-%m-%d") 
-        except ValueError:
-            raise ValueError("Неправильный формат даты рождения, ожидается:ГГГГ-ММ-ДД")
+    def __init__(self, fio, birthdate, group, gpa):
+        """Конструктор класса Student"""
+        self.fio = fio
+        self.birthdate = birthdate
+        self.group = group
+        self.gpa = gpa
+        self.__post_init__()
+
+    def __post_init__(self):
+    # Проверяем, является ли birthdate строкой
+        if isinstance(self.birthdate, str):
+            try:
+            # Если это строка, парсим ее
+                self._date_of_birth = datetime.strptime(self.birthdate, '%Y-%m-%d')
+            except ValueError:
+                raise ValueError('Invalid date format. Expected YYYY-MM-DD')
+        else:
+        # Если это уже объект date, оставляем как есть
+            self._date_of_birth = self.birthdate
         
 
     def age(self) -> int:
-        b = self.birthdate 
+        """Рассчитывает возраст студента в полных годах"""
+        b = self.birthdate ## birthdate теперь объект datetime после валидации
         today = date.today()
         if today.month > b.month:
             return today.year - b.year
@@ -29,6 +43,9 @@ class Student:
         return today.year - b.year - 1
 
     def to_dict(self) -> dict:
+        """ Сериализует объект Student в словарь
+        (Словарь с данными студента, готовый для сохранения в JSON)"""
+        
         return {
             "fio": self.fio,
             "birthdate": self.birthdate.strftime("%Y/%m/%d"),
@@ -38,6 +55,7 @@ class Student:
 
     @classmethod 
     def from_dict(cls, d: dict):
+        """Десериализует словарь в объект Student"""
         fio = d["fio"]
         birthdate = d["birthdate"]
         group = d["group"]
@@ -45,5 +63,5 @@ class Student:
         return cls(fio, birthdate, group, gpa)
 
     def __str__(self):
+        """ Возвращает читаемое строковое представление объекта"""
         return f"Student:{self.fio}, {self.age()} years old, group {self.group}, rating {self.gpa}"
-    

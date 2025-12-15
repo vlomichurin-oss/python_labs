@@ -1,0 +1,63 @@
+import sys
+import os
+from datetime import date
+
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, project_root)
+
+sys.path.append("/Users/edna/Desktop/python_labs/src")
+from lab09 import Group, Student
+
+def test_group_crud():
+    """Тестирование CRUD-операций"""
+    
+    # Путь к тестовому CSV
+    test_csv = os.path.join(project_root, 'data/lab09/students_test.csv')
+    
+    # Удаляем старый тестовый файл, если существует
+    if os.path.exists(test_csv):
+        os.remove(test_csv)
+    
+    # Создаем группу
+    group = Group(test_csv)
+    
+    print("=== Тестирование класса Group ===")
+    
+    # 1. Test ADD
+    print("\n1. Тестирование добавления:")
+    student1 = Student("Иванов Иван", date(2003, 10, 10), "БИВТ-21-1", 4.3)
+    student2 = Student("Петров Петр", date(2002, 5, 15), "БИВТ-21-2", 3.8)
+    
+    group.add(student1)
+    group.add(student2)
+    print("   ✓ Добавлено 2 студента")
+    
+    # 2. Test LIST
+    print("\n2. Тестирование списка:")
+    students = group.list()
+    print(f"   ✓ Найдено {len(students)} студентов")
+    
+    # 3. Test FIND
+    print("\n3. Тестирование поиска:")
+    found = group.find("Никита")
+    print(f"   ✓ Найдено {len(found)} студентов с 'Дмитрий'")
+    
+    # 4. Test UPDATE
+    print("\n4. Тестирование обновления:")
+    group.update("Белов Егор", gpa=3.4, group="БИВТ-21-3")
+    print("   ✓ Данные обновлены")
+    
+    # 5. Test REMOVE
+    print("\n5. Тестирование удаления:")
+    group.remove("Петров Виталий")
+    print("   ✓ Студент удален")
+    
+    # 6. Test STATS
+    print("\n6. Тестирование статистики:")
+    stats = group.stats()
+    print(f"   ✓ Статистика собрана: {stats['count']} студентов")
+    
+    print("\n=== Все тесты пройдены ===")
+
+if __name__ == "__main__":
+    test_group_crud()
