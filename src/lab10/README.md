@@ -1,169 +1,254 @@
-# Лабораторная работа №6
-## `cli_text.py`
+# Лабораторная работа №10
+## `structures.py`
+```from collections import deque
+from typing import Optional
+
+class Stack: # LIFO data-structure - bigO: O(1) for any class-method
+    def __init__(self):
+        # internal storage for the stack
+        self._data = []
+
+    def push(self, item) -> None:
+        self._data.append(item)
+
+    def pop(self) -> any:
+        if self.is_empty():
+            raise IndexError("pop from empty stack")
+        return self._data.pop()
+
+    def peek(self) -> Optional[any]:
+        if self.is_empty():
+            return None
+        return self._data[-1]
+
+    def is_empty(self) -> bool:
+        return not self._data
+
+    def __len__(self) -> int:
+        return len(self._data)
+
+
+class Queue: 
+    def __init__(self):
+        self._data = deque()
+
+    def enqueue(self, item) -> None:
+        self._data.append(item)
+
+    def dequeue(self) -> any:
+        if self.is_empty():
+            raise IndexError('dequeue from empty queue')
+        return self._data.popleft()
+
+    def peek(self) -> Optional[any]:
+        if self.is_empty():
+            return None
+        return self._data[0]
+
+    def is_empty(self) -> bool:
+        return not self._data
+    def __len__(self):
+        return len(self._data)
 ```
-import sys, os, argparse
-sys.path.append(r"/Users/edna/Desktop/python_labs/src")
-from lib.text_stats import stats_text
 
-def cat_command(input_file: str, number_lines: bool = False):
-    if not check_file(input_file):
-        sys.exit(1)
+## `linked_list.py`
+```from typing import Any, Iterator, Optional
 
-    try:
-        with open(input_file, 'r', encoding='utf-8') as f:
-            for line_number, line in enumerate(f, start=1):
-                if number_lines:
-                    print(f"{line_number:6d}  {line}", end='')
-                else:
-                    print(line, end='')
-    except Exception as e:
-        print(f"Ошибка при чтении файла: {e}", file=sys.stderr)
-        sys.exit(1)
 
-def check_file(file_path: str) -> bool:
-    if not os.path.exists(file_path):
-        print(f"Ошибка: файл '{file_path}' не существует", file=sys.stderr)
-        return False
-    if not os.path.isfile(file_path):
-        print(f"Ошибка: '{file_path}' не является файлом", file=sys.stderr)
-        return False
-
-    return True
-
-def stats_command(input_file: str, top_n: int = 5):
-    if not check_file(input_file):
-        sys.exit(1)
+class Node:
     
-    if top_n <= 0:
-        print("Ошибка: значение --top должно быть положительным числом", file=sys.stderr)
-        sys.exit(1)
+    def __init__(self, value: Any) -> None:
+        self.value: Any = value
+        self.next: Optional['Node'] = None
     
-    try:
-        with open(input_file, 'r', encoding='utf-8') as f:
-            text = f.read()
-            stats_text(text, top_n)
+    def __repr__(self) -> str:
+        return f"Node({self.value})"
 
-    except Exception as e:
-        print(f"Ошибка при анализе файла: {e}", file=sys.stderr)
-        sys.exit(1)
 
-def main():
-    parser = argparse.ArgumentParser(description="Лабораторная №6")
-    subparsers = parser.add_subparsers(dest="command")
-
-    cat_parser = subparsers.add_parser("cat", help="Вывести содержимое файла")
-    cat_parser.add_argument("--input", required=True)
-    cat_parser.add_argument("-n", action="store_true", help="Нумеровать строки")
-
-    stats_parser = subparsers.add_parser("stats", help="Частоты слов")
-    stats_parser.add_argument("--input", required=True)
-    stats_parser.add_argument("--top", type=int, default=5)
-
-    args = parser.parse_args()
-
-    if args.command == "cat":
-        cat_command(args.input, args.n)
-    elif args.command == "stats":
-        stats_command(args.input, args.top)
-    else:
-
-        parser.print_help()
-        sys.exit(1)
-
-if __name__ == "__main__":
-    main()
-```
-### Вывод строк с номерами:
-
-<img width="902" height="825" alt="lab06exCLI_TEXT01" src="https://github.com/user-attachments/assets/8012c44b-b233-4c75-bf13-ec71442b4b2a" />
-
-### Вывод топ слов :
-
-<img width="920" height="248" alt="laab06exCLI_TEXT02" src="https://github.com/user-attachments/assets/e6145e60-1dfd-4f56-a637-cfd999cff59a" />
-
-## Help:
-
-<img width="708" height="189" alt="lab06exCLI_TEXT03" src="https://github.com/user-attachments/assets/83a7f9a6-b96d-418e-848b-7ebc9f00bdc9" />
-
-## `cli_convert.py`
-```
-import sys, argparse, os
-from pathlib import Path
-sys.path.append(r"/Users/edna/Desktop/python_labs/src/lab05")
-
-from csv_xlsx import csv_to_xlsx
-from json_csv import json_to_csv, csv_to_json
-
-def check_file(file_path: str) -> bool:
-    if not os.path.exists(file_path):
-        print(f"Ошибка: файл '{file_path}' не существует", file=sys.stderr)
-        return False
-    if not os.path.isfile(file_path):
-        print(f"Ошибка: '{file_path}' не является файлом", file=sys.stderr)
-        return False
-
-    return True
-
-def cli_convert():
-    parser = argparse.ArgumentParser(description="Конвертеры данных")
-    sub = parser.add_subparsers(dest="cmd", required=True)
+class SinglyLinkedList:
     
-    p1 = sub.add_parser("json2csv")
-    p1.add_argument("--in", dest="input", required=True, help="Входной JSON файл")
-    p1.add_argument("--out", dest="output", required=True, help="Выходной CSV файл")
-
-    p2 = sub.add_parser("csv2json")
-    p2.add_argument("--in", dest="input", required=True, help="Входной CSV файл")
-    p2.add_argument("--out", dest="output", required=True, help="Выходной JSON файл")
-
-    p3 = sub.add_parser("csv2xlsx")
-    p3.add_argument("--in", dest="input", required=True, help="Входной CSV файл")
-    p3.add_argument("--out", dest="output", required=True, help="Выходной XLSX файл")
+    def __init__(self) -> None:
+        self.head: Optional[Node] = None
+        self.tail: Optional[Node] = None
+        self._size: int = 0
     
-    args = parser.parse_args()
-
-    try:
-        if args.cmd == "json2csv":
-            if not check_file(args.input):
-                print(f"Ошибка: Файл {args.input} не существует или недоступен")
-                sys.exit(1)
-                
-            json_to_csv(args.input, args.output)
-            print(f"Успешно: JSON -> CSV")
-            
-        elif args.cmd == "csv2json":
-            if not check_file(args.input):
-                print(f"Ошибка: Файл {args.input} не существует или недоступен")
-                sys.exit(1)
-                
-            csv_to_json(args.input, args.output)
-            print(f"Успешно: CSV -> JSON")
-            
-        elif args.cmd == "csv2xlsx":
-            if not check_file(args.input):
-                print(f"Ошибка: Файл {args.input} не существует или недоступен")
-                sys.exit(1)
-                
-            csv_to_xlsx(args.input, args.output)
-            print(f"Успешно: CSV -> XLSX")
-            
-        else:
-            print("Ошибка: Неизвестная команда")
-            sys.exit(1)
-            
-        return 0
+    def append(self, value: Any) -> None:
+        new_node = Node(value)
         
-    except Exception as e:
-        print(f"Ошибка при конвертации: {str(e)}")
-        sys.exit(1)
+        if self.head is None:
+            # Если список пуст
+            self.head = new_node
+            self.tail = new_node
+        else:
+            # Если список не пуст
+            self.tail.next = new_node
+            self.tail = new_node
+        
+        self._size += 1
+    
+    def prepend(self, value: Any) -> None:
+        new_node = Node(value)
+        
+        if self.head is None:
+            # Если список пуст
+            self.head = new_node
+            self.tail = new_node
+        else:
+            # Если список не пуст
+            new_node.next = self.head
+            self.head = new_node
+        
+        self._size += 1
+    
+    def insert(self, idx: int, value: Any) -> None:
+        if idx < 0 or idx > self._size:
+            raise IndexError(f"Index {idx} out of range for list of size {self._size}")
+        
+        if idx == 0:
+            # Вставка в начало
+            self.prepend(value)
+            return
+        elif idx == self._size:
+            # Вставка в конец
+            self.append(value)
+            return
+        
+        # Вставка в середину
+        new_node = Node(value)
+        current = self.head
+        for _ in range(idx - 1):
+            current = current.next
+        
+        new_node.next = current.next
+        current.next = new_node
+        self._size += 1
+    
+    def remove_at(self, idx: int) -> None:
+        if idx < 0 or idx >= self._size:
+            raise IndexError(f"Index {idx} out of range for list of size {self._size}")
+        
+        if idx == 0:
+            # Удаление из начала
+            self.head = self.head.next
+            if self.head is None:
+                self.tail = None
+        else:
+            # Удаление из середины или конца
+            current = self.head
+            for _ in range(idx - 1):
+                current = current.next
+            
+            # current теперь указывает на элемент перед удаляемым
+            if current.next == self.tail:
+                # Если удаляем последний элемент
+                self.tail = current
+            
+            current.next = current.next.next
+        
+        self._size -= 1
+    
+    def remove(self, value: Any) -> bool:
+        if self.head is None:
+            return False
+        
+        # Проверяем первый элемент
+        if self.head.value == value:
+            self.head = self.head.next
+            if self.head is None:
+                self.tail = None
+            self._size -= 1
+            return True
+        
+        # Ищем в остальной части списка
+        current = self.head
+        while current.next is not None:
+            if current.next.value == value:
+                if current.next == self.tail:
+                    self.tail = current
+                current.next = current.next.next
+                self._size -= 1
+                return True
+            current = current.next
+        
+        return False
+    
+    def __iter__(self) -> Iterator[Any]:
+        current = self.head
+        while current is not None:
+            yield current.value
+            current = current.next
+    
+    def __len__(self) -> int:
+        return self._size
+    
+    def __repr__(self) -> str:
+        elements = list(self)
+        return f"SinglyLinkedList({elements})"
+    
+    def visual_repr(self) -> str:
+        parts = []
+        current = self.head
+        while current is not None:
+            parts.append(f"[{current.value}]")
+            current = current.next
+        parts.append("None")
+        return " -> ".join(parts)
+    
+    def get(self, idx: int) -> Any:
+        if idx < 0 or idx >= self._size:
+            raise IndexError(f"Index {idx} out of range for list of size {self._size}")
+        
+        current = self.head
+        for _ in range(idx):
+            current = current.next
+        return current.value
+
 
 if __name__ == "__main__":
-    sys.exit(cli_convert())
+    # Демонстрация работы односвязного списка
+    print("=== Демонстрация SinglyLinkedList ===")
+    lst = SinglyLinkedList()
+    print(f"Пустой список: {lst}")
+    print(f"Визуально: {lst.visual_repr()}")
+    print(f"Длина: {len(lst)}")
+    
+    # Добавление элементов
+    lst.append(10)
+    lst.append(20)
+    lst.append(30)
+    print(f"\nПосле append: {lst}")
+    print(f"Визуально: {lst.visual_repr()}")
+    
+    # Добавление в начало
+    lst.prepend(5)
+    print(f"\nПосле prepend(5): {lst}")
+    print(f"Визуально: {lst.visual_repr()}")
+    
+    # Вставка по индексу
+    lst.insert(2, 15)
+    print(f"\nПосле insert(2, 15): {lst}")
+    print(f"Визуально: {lst.visual_repr()}")
+    
+    # Получение элемента
+    print(f"\nЭлемент по индексу 2: {lst.get(2)}")
+    
+    # Итерация
+    print("\nИтерация по списку:")
+    for item in lst:
+        print(f"  {item}")
+    
+    # Удаление по значению
+    lst.remove(20)
+    print(f"\nПосле remove(20): {lst}")
+    print(f"Визуально: {lst.visual_repr()}")
+    
+    # Удаление по индексу
+    lst.remove_at(1)
+    print(f"\nПосле remove_at(1): {lst}")
+    print(f"Визуально: {lst.visual_repr()}")
+    print(f"Длина списка: {len(lst)}")
 ```
-### Вывод JSON -> CSV, CSV -> JSON, CSV -> XLSX:
 
-<img width="1001" height="152" alt="lab06exCLI_CONVERT" src="https://github.com/user-attachments/assets/9359834d-0f71-47d1-a980-c95128c27230" />
+<img width="431" height="420" alt="lab10exLinked_list" src="https://github.com/user-attachments/assets/790aff36-9250-4d4a-bfeb-8caa8dd1441a" />
 
-### Help:
 
-<img width="708" height="189" alt="lab06exCLI_TEXT03" src="https://github.com/user-attachments/assets/68188263-8d0f-4070-bb98-1d86317f70a9" />
